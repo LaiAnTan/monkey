@@ -1,6 +1,8 @@
 extends Node2D
 
 @export var mob_scene: PackedScene
+@export var player_scene: PackedScene
+
 var score
 
 func _ready():
@@ -11,6 +13,10 @@ func game_over():
 
 func new_game():
 	score = 0
+	var player = player_scene.instantiate()
+	
+	add_child(player)
+	
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 
@@ -29,14 +35,6 @@ func _on_mob_timer_timeout():
 
 	# Set the mob's position to a random location.
 	mob.position = mob_spawn_location.position
-	
-	# Add some randomness to the direction.
-	direction += randf_range(-PI / 4, PI / 4)
-	mob.rotation = direction
-
-	# Choose the velocity for the mob.
-	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
-	mob.linear_velocity = velocity.rotated(direction)
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)

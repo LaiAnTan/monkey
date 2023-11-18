@@ -8,6 +8,7 @@ var screen_size
 # this function sets up the script
 func _ready():
 	screen_size = get_viewport_rect().size
+	add_to_group("Player", true)
 	hide() # hide player
 
 # this function is called every frame
