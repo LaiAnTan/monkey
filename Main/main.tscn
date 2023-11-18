@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://d0smxtcmgkmms"]
+[gd_scene load_steps=6 format=3 uid="uid://d0smxtcmgkmms"]
 
 [ext_resource type="Script" path="res://Main/main.gd" id="1_prudd"]
 [ext_resource type="PackedScene" uid="uid://db30btwv2mard" path="res://Enemies/Enemy.tscn" id="2_70ocl"]
-[ext_resource type="PackedScene" uid="uid://co0pibdcf1017" path="res://Player/player.tscn" id="3_tkjlx"]
+[ext_resource type="PackedScene" uid="uid://cpc05vxxko1hx" path="res://Player/Player.tscn" id="3_6jd0d"]
+[ext_resource type="PackedScene" uid="uid://b0jq7aarpr4rw" path="res://HUD/hud.tscn" id="4_b7upt"]
 
 [sub_resource type="Curve2D" id="Curve2D_7yc6v"]
 _data = {
@@ -10,10 +11,11 @@ _data = {
 }
 point_count = 9
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" groups=["Main"]]
 script = ExtResource("1_prudd")
 mob_scene = ExtResource("2_70ocl")
-player_scene = ExtResource("3_tkjlx")
+player_scene = ExtResource("3_6jd0d")
+hud_scene = ExtResource("4_b7upt")
 
 [node name="StartTimer" type="Timer" parent="."]
 wait_time = 2.0

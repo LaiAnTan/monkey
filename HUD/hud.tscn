@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b0jq7aarpr4rw"]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 17.0
+offset_top = 604.0
+offset_right = 176.0
+offset_bottom = 631.0
+max_value = 10.0
+step = 1.0
+value = 10.0
+show_percentage = false

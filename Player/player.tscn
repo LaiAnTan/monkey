@@ -1,40 +1,61 @@
-[gd_scene load_steps=6 format=3 uid="uid://co0pibdcf1017"]
+[gd_scene load_steps=9 format=3 uid="uid://cpc05vxxko1hx"]
 
-[ext_resource type="Script" path="res://Player/Player.gd" id="1_qc5ag"]
-[ext_resource type="Texture2D" uid="uid://jihk3ymovalo" path="res://assets/player/l0_player1.png" id="2_swlrx"]
-[ext_resource type="Texture2D" uid="uid://d1hmx6mnko6rf" path="res://assets/player/l1_player1.png" id="3_gmgkr"]
+[ext_resource type="Script" path="res://Player/Player.gd" id="1_cfjw1"]
+[ext_resource type="Texture2D" uid="uid://cgumihtdoqraw" path="res://assets/player/player_death.png" id="1_fil1g"]
+[ext_resource type="Texture2D" uid="uid://jihk3ymovalo" path="res://assets/player/l0_player1.png" id="2_fnmuv"]
+[ext_resource type="Texture2D" uid="uid://d1hmx6mnko6rf" path="res://assets/player/l1_player1.png" id="3_osvp2"]
+[ext_resource type="PackedScene" uid="uid://n0q5ag6l0ve0" path="res://Components/soft_collision.tscn" id="4_woigs"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_jg1xv"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_v2kfp"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_swlrx")
+"texture": ExtResource("1_fil1g")
+}],
+"loop": true,
+"name": &"death",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_fnmuv")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_gmgkr")
+"texture": ExtResource("3_osvp2")
 }],
 "loop": true,
 "name": &"walk",
 "speed": 4.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ybfnu"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wq6qg"]
 radius = 20.0
 height = 50.0
 
-[node name="Player" type="Area2D" groups=["Player"]]
-position = Vector2(512, 264)
-script = ExtResource("1_qc5ag")
-metadata/_edit_group_ = true
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e8jt2"]
+radius = 20.0
+height = 50.0
+
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_cfjw1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.15, 0.15)
-sprite_frames = SubResource("SpriteFrames_jg1xv")
+sprite_frames = SubResource("SpriteFrames_v2kfp")
 animation = &"walk"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, -2)
-shape = SubResource("CapsuleShape2D_ybfnu")
+[node name="PlayerHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -3)
+shape = SubResource("CapsuleShape2D_wq6qg")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="SoftCollision" parent="." instance=ExtResource("4_woigs")]
+
+[node name="SoftCollisionHitbox" type="CollisionShape2D" parent="SoftCollision"]
+position = Vector2(-1, -3)
+shape = SubResource("CapsuleShape2D_e8jt2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_speed = 10.0

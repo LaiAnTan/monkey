@@ -2,6 +2,7 @@ extends Node2D
 
 @export var mob_scene: PackedScene
 @export var player_scene: PackedScene
+@export var hud_scene: PackedScene
 
 var score
 
@@ -12,11 +13,19 @@ func game_over():
 	$MobTimer.stop()
 
 func new_game():
-	score = 0
-	var player = player_scene.instantiate()
 	
+	# clear mobs
+	get_tree().call_group("Enemies", "queue_free")
+	
+	var hud = hud_scene.instantiate()
+	add_child(hud)
+	
+	score = 0
+	
+	var player = player_scene.instantiate()
 	add_child(player)
 	
+	$Player.connect("death", game_over)
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 
@@ -29,9 +38,6 @@ func _on_mob_timer_timeout():
 	
 	var mob_spawn_location = get_node("MobPath/MobSpawnLocation")
 	mob_spawn_location.progress_ratio = randf()
-	
-	# Set the mob's direction perpendicular to the path direction.
-	var direction = mob_spawn_location.rotation + PI / 2
 
 	# Set the mob's position to a random location.
 	mob.position = mob_spawn_location.position

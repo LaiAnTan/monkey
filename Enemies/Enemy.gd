@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var player = get_tree().get_first_node_in_group("Player")
+@onready var softCollision = $SoftCollision
 
 @export var speed = 200
 
@@ -20,9 +21,11 @@ func _physics_process(delta):
 
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
-
-	position += velocity * delta
-	position = position.clamp(Vector2.ZERO, screen_size)
+	
+	if softCollision.is_colliding():
+		velocity += softCollision.get_push_vec() * delta * 400
+	
+	move_and_slide()
 	
 	if velocity.x < 0:
 		$AnimatedSprite2D.flip_h = true

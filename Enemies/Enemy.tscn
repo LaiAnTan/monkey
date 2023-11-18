@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://db30btwv2mard"]
+[gd_scene load_steps=7 format=3 uid="uid://db30btwv2mard"]
 
 [ext_resource type="Script" path="res://Enemies/Enemy.gd" id="1_164op"]
 [ext_resource type="Texture2D" uid="uid://bunl4tj5levrc" path="res://assets/enemy/enemy0.png" id="2_b4kmp"]
 [ext_resource type="Texture2D" uid="uid://cyctxqxva6736" path="res://assets/enemy/enemy1.png" id="3_gh3h8"]
+[ext_resource type="PackedScene" uid="uid://n0q5ag6l0ve0" path="res://Components/soft_collision.tscn" id="4_f0m2f"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4k6x1"]
 animations = [{
@@ -23,6 +24,7 @@ radius = 21.0
 height = 56.0
 
 [node name="Enemy" type="CharacterBody2D" groups=["Enemies"]]
+position = Vector2(10, 10)
 motion_mode = 1
 script = ExtResource("1_164op")
 metadata/_edit_group_ = true
@@ -33,6 +35,12 @@ sprite_frames = SubResource("SpriteFrames_4k6x1")
 frame = 1
 frame_progress = 0.65388
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="EnemyHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(2, 2)
+shape = SubResource("CapsuleShape2D_tolab")
+
+[node name="SoftCollision" parent="." instance=ExtResource("4_f0m2f")]
+
+[node name="SoftCollisionHitbox" type="CollisionShape2D" parent="SoftCollision"]
 position = Vector2(2, 2)
 shape = SubResource("CapsuleShape2D_tolab")
