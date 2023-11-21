@@ -1,8 +1,7 @@
 extends CanvasLayer
 
-func _ready():
-	$Player.connect("hit", update_health_bar)
-	$ProgressBar.max_value = $Player.max_health
-	
-func update_health_bar():
-	$ProgressBar.value = $Player.health
+@onready var health_bar = $HealthBar
+
+func update_health_bar(health: int) -> void:
+	print("update_health_bar called")
+	health_bar.value = health

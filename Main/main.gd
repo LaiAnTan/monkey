@@ -26,6 +26,7 @@ func new_game():
 	add_child(player)
 	
 	$Player.connect("death", game_over)
+	$Player.hit.connect($HUD.update_health_bar)
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 

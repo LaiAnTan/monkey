@@ -25,6 +25,7 @@ height = 56.0
 
 [node name="Enemy" type="CharacterBody2D" groups=["Enemies"]]
 position = Vector2(10, 10)
+collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_164op")
 metadata/_edit_group_ = true

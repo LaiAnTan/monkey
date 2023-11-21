@@ -1,8 +1,11 @@
-[gd_scene format=3 uid="uid://b0jq7aarpr4rw"]
+[gd_scene load_steps=2 format=3 uid="uid://b0jq7aarpr4rw"]
 
-[node name="HUD" type="CanvasLayer"]
+[ext_resource type="Script" path="res://HUD/hud.gd" id="1_hri0k"]
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="HUD" type="CanvasLayer" groups=["hud"]]
+script = ExtResource("1_hri0k")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = 17.0
 offset_top = 604.0
 offset_right = 176.0

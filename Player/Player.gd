@@ -10,14 +10,16 @@ signal death
 
 @onready var axis = Vector2.ZERO
 @onready var softCollision = $SoftCollision
+@onready var health = max_health
+
 
 var screen_size
-var health
+var block_input = false
+var hud = null
 
 # this function sets up the script
 func _ready():
 	screen_size = get_viewport_rect().size
-	health = max_health
 
 	add_to_group("Player", true)
 	
@@ -35,6 +37,9 @@ func get_input_axis():
 	return axis.normalized()
 
 func move(delta):
+	
+	if block_input == true:
+		return
 	
 	axis = get_input_axis()
 	
@@ -57,7 +62,11 @@ func apply_movement(acceleration):
 	velocity = velocity.limit_length(max_speed)
 	
 func damage_player():
+	if (health == 0):
+		return
 	health -= 1
+	hit.emit(health)
+	print("Player was damaged, current health = ", health)
 	if (health <= 0):
 		death.emit()
 
@@ -79,13 +88,6 @@ func disable_enemy_hitbox(body, secs):
 	enemy_hitbox.disabled = false
 	cooldown.queue_free()
 
-func _on_body_entered(body): # this broke
-	
-	hit.emit()
-	print("Player was hit")
-	damage_player()
-	disable_enemy_hitbox(body, 2)
-
 # init the player
 func start(pos):
 	position = pos
@@ -94,5 +96,10 @@ func start(pos):
 	$AnimatedSprite2D.play("walk")
 
 func _on_death():
+	print("on death called")
 	$AnimatedSprite2D.play("death")
-	$PlayerHitbox.set_deferred("disabled", true) # disable player collision
+	# $PlayerHitbox.set_deferred("disabled", true) # disable player collision maybe
+	block_input = true
+
+func _on_soft_collision_body_entered(_body):
+	damage_player()
